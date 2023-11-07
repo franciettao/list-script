@@ -1,0 +1,86 @@
+#!/bin/bash
+
+PS3="
+Choix : 1(1-Find FIC) (2-DEL DIR) (3-DEL FIC) (4-Copy DIR) (5-Save) (6-END)
+
+"
+
+# Fonction pour trouver un fichier
+find_file() {
+    read -p "Entrez le nom du fichier que vous recherchez : " FILE_NAME
+    find ./ -type f -name "$FILE_NAME"
+}
+
+# Fonction pour supprimer un répertoire
+delete_directory() {
+    read -p "Entrez le nom du répertoire à supprimer (le chemin d'accès peut être nécessaire) : " DIR_T>
+    rm -r "$DIR_TO_DELETE"
+    if [ "$?" == "0" ]; then
+        echo "La commande a fonctionné."
+    else
+        echo "Échec de la commande, veuillez vérifier le chemin d'accès."
+    fi
+}
+
+# Fonction pour supprimer un fichier
+delete_file() {
+    read -p "Entrez le nom du fichier à supprimer (le chemin d'accès peut être nécessaire) : " FILE_TO_>
+    rm "$FILE_TO_DELETE"
+    if [ "$?" == "0" ]; then
+        echo "La commande a fonctionné."
+    else
+        echo "Échec de la commande, veuillez vérifier le chemin d'accès."
+    fi
+}
+
+# Fonction pour copier un répertoire
+copy_directory() {
+    read -p "Entrez le chemin/vers/le/repertoire/ à copier : " COPY_DIR
+    cp -r "$COPY_DIR" /BACK"$COPY_DIR"/
+    if [ "$?" == "0" ]; then
+        echo "La commande a fonctionné."
+    else
+        echo "Échec de la commande, veuillez vérifier le chemin d'accès."
+    fi
+}
+# Fonction pour archiver des données
+archive_data() {
+    read -p "Entrez le chemin/vers/le/repertoire/ à archiver : " ARCHIVE_DIR
+    tar -cvf "$ARCHIVE_DIR.tar" "$ARCHIVE_DIR"
+    if [ "$?" == "0" ]; then
+        echo "La commande a fonctionné. L'archive est disponible sous le nom $ARCHIVE_DIR.tar."
+    else
+        echo "Échec de la commande, veuillez vérifier le chemin d'accès."
+    fi
+}
+
+# Boucle pour le menu principal
+while true; do
+    select CHOICE in "TROUVER LE FICHIER" "SUPPRIMER LE REPERTOIRE" "SUPPRIMER DES FICHIERS" "COPIER DE>
+        case $CHOICE in
+            "TROUVER LE FICHIER")
+                find_file
+                ;;
+            "SUPPRIMER LE REPERTOIRE")
+                delete_directory
+                ;;
+            "SUPPRIMER DES FICHIERS")
+                delete_file
+                ;;
+            "COPIER DES REPERTOIRES")
+                copy_directory
+                ;;
+            "ARCHIVER DES DONNÉES")
+                archive_data
+                ;;
+            "END")
+                echo "Fin du script."
+                exit 0
+                ;;
+            *)
+                echo "Choix invalide."
+                ;;
+        esac
+    done
+done
+
